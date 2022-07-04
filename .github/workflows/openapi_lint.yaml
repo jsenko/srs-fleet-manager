@@ -6,7 +6,7 @@ on:
       - main
       - test_spectral_workflow # TODO WIP
     paths:
-      - ./core/src/main/resources/srs-fleet-manager.json
+      - core/src/main/resources/srs-fleet-manager.json
 
 jobs:
   lint:
