@@ -1,0 +1,33 @@
+name: Validate OpenAPI schema with Spectral
+on:
+  push:
+    branches:
+      - main
+      - test_spectral_workflow # TODO WIP
+    paths:
+      - "core/src/main/resources/srs-fleet-manager.json"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "core/src/main/resources/srs-fleet-manager.json"
+
+jobs:
+  lint:
+    name: Run Spectral
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'jsenko' # TODO WIP
+    steps:
+      # sets up node, used to pull RHOAS ruleset package
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: yarn add @stoplight/spectral@5.9.0
+      # getting the ruleset from the RHOAS repo
+      - run: yarn add @rhoas/spectral-ruleset
+      - run: yarn install
+      - run: yarn spectral lint ./srs_aos.yaml
+      - run: yarn spectral lint ./core/src/main/resources/srs-fleet-manager.json

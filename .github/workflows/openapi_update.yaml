@@ -10,6 +10,7 @@ jobs:
   lint:
     name: Run Spectral
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'bf2fc6cc711aee1a0c2a'
     steps:
     # sets up node, used to pull RHOAS ruleset package
     - uses: actions/checkout@v3
@@ -33,6 +34,7 @@ jobs:
       matrix:
         repo: ["redhat-developer/app-services-sdk-go", "redhat-developer/app-services-sdk-js", "redhat-developer/app-services-sdk-java"]
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'bf2fc6cc711aee1a0c2a'
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
