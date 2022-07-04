@@ -11,6 +11,8 @@ on:
       - main
     paths:
       - "core/src/main/resources/srs-fleet-manager.json"
+  workflow_call:
+    inputs: {}
 
 jobs:
   lint:
@@ -29,5 +31,4 @@ jobs:
       # getting the ruleset from the RHOAS repo
       - run: yarn add @rhoas/spectral-ruleset
       - run: yarn install
-      - run: yarn spectral lint ./srs_aos.yaml
       - run: yarn spectral lint ./core/src/main/resources/srs-fleet-manager.json

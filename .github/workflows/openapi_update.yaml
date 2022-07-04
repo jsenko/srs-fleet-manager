@@ -3,43 +3,35 @@ on:
   push:
     branches: 
       - main
+      - test_spectral_workflow # TODO WIP
     paths:
       - "core/src/main/resources/srs-fleet-manager.json"
 
 jobs:
   lint:
-    name: Run Spectral
-    runs-on: ubuntu-latest
-    if: github.repository_owner == 'bf2fc6cc711aee1a0c2a'
-    steps:
-    # sets up node, used to pull RHOAS ruleset package
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 14
-    - run: yarn add @stoplight/spectral@5.9.0
-    # getting the ruleset from the RHOAS repo
-    - run: yarn add @rhoas/spectral-ruleset
-    - run: yarn install 
-
-    - run: yarn spectral lint ./srs_aos.yaml
-    - run: yarn spectral lint ./core/src/main/resources/srs-fleet-manager.json
-
-
-  dispatch:
+    uses: "./.github/workflows/openapi_lint.yaml"
+  test:
     needs: lint
-    env:
-      APP_SERVICES_CI_TOKEN: ${{ secrets.APP_SERVICES_CI_TOKEN }}
-    strategy:
-      matrix:
-        repo: ["redhat-developer/app-services-sdk-go", "redhat-developer/app-services-sdk-js", "redhat-developer/app-services-sdk-java"]
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'bf2fc6cc711aee1a0c2a'
+    if: github.repository_owner == 'jsenko' # TODO WIP
     steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ env.APP_SERVICES_CI_TOKEN }}
-          repository: ${{ matrix.repo }}
-          event-type: openapi-spec-change
-          client-payload: '{ "id": "srs-mgmt/v1", "download_url":"https://raw.githubusercontent.com/bf2fc6cc711aee1a0c2a/srs-fleet-manager/main/core/src/main/resources/srs-fleet-manager.json"}'
+      - name: test
+        run: echo "foo"
+
+#  dispatch:
+#    needs: lint
+#    env:
+#      APP_SERVICES_CI_TOKEN: ${{ secrets.APP_SERVICES_CI_TOKEN }}
+#    strategy:
+#      matrix:
+#        repo: ["redhat-developer/app-services-sdk-go", "redhat-developer/app-services-sdk-js", "redhat-developer/app-services-sdk-java"]
+#    runs-on: ubuntu-latest
+#    if: github.repository_owner == 'bf2fc6cc711aee1a0c2a'
+#    steps:
+#      - name: Repository Dispatch
+#        uses: peter-evans/repository-dispatch@v1
+#        with:
+#          token: ${{ env.APP_SERVICES_CI_TOKEN }}
+#          repository: ${{ matrix.repo }}
+#          event-type: openapi-spec-change
+#          client-payload: '{ "id": "srs-mgmt/v1", "download_url":"https://raw.githubusercontent.com/bf2fc6cc711aee1a0c2a/srs-fleet-manager/main/core/src/main/resources/srs-fleet-manager.json"}'
