@@ -1,22 +1,16 @@
 name: Validate OpenAPI schema with Spectral
 on:
-  push:
+  workflow_call: { }
+  pull_request:
     branches:
       - main
       - test_spectral_workflow # TODO WIP
     paths:
-      - "core/src/main/resources/srs-fleet-manager.json"
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "core/src/main/resources/srs-fleet-manager.json"
-  workflow_call:
-    inputs: {}
+      - ./core/src/main/resources/srs-fleet-manager.json
 
 jobs:
   lint:
-    name: Run Spectral
+    name: Run Spectral Lint
     runs-on: ubuntu-latest
     if: github.repository_owner == 'jsenko' # TODO WIP
     steps:

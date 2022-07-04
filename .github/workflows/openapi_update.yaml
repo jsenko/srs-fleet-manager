@@ -1,15 +1,15 @@
 name: Dispatch OpenAPI File Change event
 on:
   push:
-    branches: 
+    branches:
       - main
       - test_spectral_workflow # TODO WIP
     paths:
-      - "core/src/main/resources/srs-fleet-manager.json"
+      - ./core/src/main/resources/srs-fleet-manager.json
 
 jobs:
   lint:
-    uses: "./.github/workflows/openapi_lint.yaml"
+    uses: ./.github/workflows/openapi_lint.yaml
   test:
     needs: lint
     runs-on: ubuntu-latest
