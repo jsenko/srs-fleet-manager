@@ -20,8 +20,7 @@ spec:
           name: fleet-manager-config
       containers:
       - name: fleet-manager
-        image: 'docker.io/andreatp/apicurio-registry-fleet-manager:latest'
-        # image: 'quay.io/apicurio/apicurio-registry-fleet-manager:latest-snapshot'
+        image: 'quay.io/jsenkorh/apicurio-registry-fleet-manager:test'
         env:
           - name: USE_LOCAL_AMS
             value: 'true'
