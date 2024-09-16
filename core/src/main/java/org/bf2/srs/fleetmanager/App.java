@@ -61,4 +61,9 @@ public class App {
     void onStop(@Observes ShutdownEvent ev) {
         taskManager.stop();
     }
+
+    boolean throwsNPE() {
+        String foo = null;
+        return foo.isEmpty();
+    }
 }
